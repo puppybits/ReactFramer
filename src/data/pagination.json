@@ -1,0 +1,17 @@
+[
+  {
+    "linearGradient": "linear-gradient(90deg, rgb(132,17,255), rgb(11,225,255))",
+    "title": "Gradient",
+    "subhead": "start, end, angle"
+  },
+  {
+    "linearGradient": "linear-gradient(90deg, rgb(11,225,255), rgb(247,245,21))",
+    "title": "Presets",
+    "subhead": "manage presets"
+  },
+  {
+    "linearGradient": "linear-gradient(90deg, rgb(247,245,21), rgb(248,47,129)",
+    "title": "Colors",
+    "subhead": "Pick any color"
+  }
+]
