@@ -7,20 +7,19 @@ class Pagination extends Component {
     const {panels} = this.props;
 
     const width = 300;
-    const idx = 0;
+    const idx = 1;
 
     return (
       <div className="Pagination" style={{width, height: 500, position: "relative", overflow:"hidden"}}>
        <PaginationMotion width={width} total={panels.length}>
-          {(percent) => (
-            <div style={{width: "100%", height:"100%", position: "absolute", top: 0}}>
+          {({percent, page}) => {
+            return <div style={{width: "100%", height:"100%", position: "absolute", top: 0}}>
               <div style={{left: -(width * percent), width: "100%", height:"100%", position: "absolute", top: 0, display:"flex", flexDirection: "row"}}>
-                {panels.map((panelProps, idx) => (
-                  <Panel key={idx} {...{...panelProps, percent}} />
+                {panels.map((panelProps, index) => (
+                  <Panel key={index} {...{...panelProps, percent, page, index}} />
                 ))}
-                {/* calculate the percentage of the animation */}
               </div>
-            </div>)}
+            </div>}}
         </PaginationMotion>
       </div>
     );
@@ -28,12 +27,7 @@ class Pagination extends Component {
 }
 
 Pagination.propTypes = {
-  panels: PropTypes.arrayOf(PropTypes.shape({
-    linearGradient: PropTypes.string,
-    title: PropTypes.string,
-    subhead: PropTypes.string,
-    icon: PropTypes.string
-  }))
+  panels: PropTypes.arrayOf(PropTypes.shape(Panel.proptypes))
 }
 
 export default Pagination;

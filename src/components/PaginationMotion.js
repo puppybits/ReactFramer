@@ -7,37 +7,47 @@ const noop = () => {};
 class PaginationMotion extends Component {
   constructor(props) {
     super(props);
-    // TODO: remove x
-    this.state = {disabled: true, x: 50, percent:0, index:0};
+    this.state = {disabled: true, percent:0, page:0, start:null};
   }
-  setDisabled(disabled) {
-    this.setState({disabled});
-  }
-  onEnd() {
-    const {width} = this.props;
-    const {percent} = this.state;
-    const lock = (percent > 0.5 ? 1 : 0);
+  onEnd({x}) {
+    if (!this.state.start) return;
 
-    this.setState({percent:lock});
+    const {width, total} = this.props;
+    const {percent, page, start} = this.state;
+    const lock = (start - x > 1 ? Math.min(page+1,total-1) : Math.max(0, page-1));
+
+    this.setState({percent:lock, start:null, page:lock, disabled: true});
   }
   onMove({x}) {
-    // 1. add interpolation from the x to the percent
-    // use total to create offset and set page index
     const {width,total} = this.props;
-    console.log(total);
-    // this.setState({x, percent:x / width});
-    this.setState({x, percent:1 - (x / width)});
+    let {start, page} = this.state;
+    if (!start) {
+      start = x;
+      this.setState({start})
+    }
+
+    let newPercent = (start - x) / width;
+
+    const isAtMaxThreshold = page === total-1;
+    const isMinThreshold = page === 0;
+    if (isAtMaxThreshold) {
+      newPercent = Math.min(newPercent, 0);
+    } else if (isMinThreshold) {
+      newPercent = Math.max(newPercent, 0);
+    }
+
+    this.setState({x, percent:page + newPercent});
   }
   render() {
-    const {disabled, x, percent, index} = this.state;
+    const {disabled, percent, page} = this.state;
     const {children} = this.props;
-    return <Pointable onPointerDown={() => this.setDisabled(false)}
+    return <Pointable onPointerDown={() => this.setState({disabled:false})}
                       onPointerMove={disabled ? noop : this.onMove.bind(this)}
-                      onPointerUp={() => {this.onEnd(); this.setDisabled(true)}}
-                      onPointerCancel={() => this.setDisabled(true)}
-                      onPointerLeave={() => {this.onEnd(); this.setDisabled(true)}}>
+                      onPointerUp={this.onEnd.bind(this)}
+                      onPointerCancel={this.onEnd.bind(this)}
+                      onPointerLeave={this.onEnd.bind(this)}>
       <Motion defaultStyle={{percent:0}} style={{percent: spring(percent, {stiffness: 75})}}>
-        {({percent,index}) => children(percent,index)}
+        {(value) => children({percent:value.percent, page})}
       </Motion>
     </Pointable>
   }
