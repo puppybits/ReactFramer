@@ -8,11 +8,11 @@ const iconSources = {drop, palette, dropper}
 
 class Panel extends Component {
   render() {
-    const {index, page: activePage, title, subhead, linearGradient, buttonGradient, icon, percent, x} = this.props;
+    const {index, page: activePage, title, subhead, linearGradient, buttonGradient, icon, percent, x, width} = this.props;
     let springStep = -(activePage - index) * 200
     return (
       <div className="Panel" style={{display: "flex", flexWrap: "wrap", height: "100%"}}>
-        <div style={{width:"100%", height:"50%", overflow: "hidden"}}>
+        <div style={{width:width, height:"50%", overflow: "hidden"}}>
           <Motion defaultStyle={{x:0}} style={{x: spring(springStep, {stiffness: 200})}}>
             {({x}) =>
               (<div style={{position: "relative", left:x, display:"flex", flexDirection:"column", alignItems: "center", width: "100%", paddingTop: 40}}>
@@ -30,7 +30,7 @@ class Panel extends Component {
                 (<h3 style={{position: "relative", left:x}}>{subhead}</h3>)}
           </Motion>
         </div>
-        <div style={{background: linearGradient, width: 300, height: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <div style={{background: linearGradient, width: "100%", height: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
           <img src={iconSources[icon]} style={{width: 50, }}/>
         </div>
       </div>
