@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Motion, spring } from 'react-motion';
 import Pointable from 'react-pointable';
 
@@ -12,8 +12,8 @@ class PaginationMotion extends Component {
   onEnd({x}) {
     if (!this.state.start) return;
 
-    const {width, total} = this.props;
-    const {percent, page, start} = this.state;
+    const {total} = this.props;
+    const {page, start} = this.state;
     const lock = (start - x > 1 ? Math.min(page+1,total-1) : Math.max(0, page-1));
 
     this.setState({percent:lock, start:null, page:lock, disabled: true});
@@ -41,7 +41,7 @@ class PaginationMotion extends Component {
   render() {
     const {disabled, percent, page} = this.state;
     const {children} = this.props;
-    return <Pointable onPointerDown={() => this.setState({disabled:false})}
+    return (<Pointable onPointerDown={() => this.setState({disabled:false})}
                       onPointerMove={disabled ? noop : this.onMove.bind(this)}
                       onPointerUp={this.onEnd.bind(this)}
                       onPointerCancel={this.onEnd.bind(this)}
@@ -49,7 +49,7 @@ class PaginationMotion extends Component {
       <Motion defaultStyle={{percent:0}} style={{percent: spring(percent, {stiffness: 75})}}>
         {(value) => children({percent:value.percent, page})}
       </Motion>
-    </Pointable>
+    </Pointable>)
   }
 }
 

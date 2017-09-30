@@ -1,12 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Panel from './Panel';
 import PaginationMotion from "./PaginationMotion";
 
 class Pagination extends Component {
   render() {
     const {width, height, panels} = this.props;
-
-    const idx = 1;
 
     return (
       <div className="Pagination" style={{width, height, position: "relative", overflow:"hidden"}}>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Pagination from './components/Pagination';
 import paginationData from './data/pagination.json'

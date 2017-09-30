@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Motion, spring } from 'react-motion';
 import drop from '../assets/drop.svg';
 import palette from '../assets/palette.svg';
@@ -8,7 +9,7 @@ const iconSources = {drop, palette, dropper}
 
 class Panel extends Component {
   render() {
-    const {index, page: activePage, title, subhead, linearGradient, buttonGradient, icon, percent, x, width} = this.props;
+    const {index, page: activePage, title, subhead, linearGradient, buttonGradient, icon, width} = this.props;
     let springStep = -(activePage - index) * 200
     return (
       <div className="Panel" style={{display: "flex", flexWrap: "wrap", height: "100%"}}>
@@ -31,7 +32,7 @@ class Panel extends Component {
           </Motion>
         </div>
         <div style={{background: linearGradient, width: "100%", height: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-          <img src={iconSources[icon]} style={{width: 50, }}/>
+          <img src={iconSources[icon]} alt={icon} style={{width: 50, }}/>
         </div>
       </div>
     );
@@ -39,7 +40,7 @@ class Panel extends Component {
 }
 
 Panel.propTypes = {
-  index: React.PropTypes.number,
+  index: PropTypes.number,
   linearGradient: PropTypes.string,
   buttonGradient: PropTypes.string,
   title: PropTypes.string,
